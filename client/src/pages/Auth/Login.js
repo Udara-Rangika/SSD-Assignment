@@ -5,6 +5,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
 import { useAuth } from "../../context/auth";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import Google from './google';
+import jwt_decode from 'jwt-decode';
+
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +17,18 @@ const Login = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleSuccess = (credentialResponse) => {
+    const details = jwt_decode(credentialResponse.credential)
+    console.log("test",details)
+    console.log('Google login success:', credentialResponse);
+    navigate('/');
+  };
+
+  const handleError = (error) => {
+    console.error('Google login error:', error);
+    
+  };
 
   // form function
   const handleSubmit = async (e) => {
@@ -38,6 +55,7 @@ const Login = () => {
       toast.error("Something went wrong");
     }
   };
+
   return (
     <Layout title="Register - Ecommer App">
       <div className="form-container " style={{ minHeight: "90vh" }}>
@@ -82,6 +100,19 @@ const Login = () => {
           <button type="submit" className="btn btn-primary">
             LOGIN
           </button>
+
+          <br></br><br></br>
+
+          <p><center>OR</center></p>
+
+          {/* Google OAuth Login */}
+          <div className="App">
+            <header className="App-header">
+              <GoogleOAuthProvider clientId="226258442736-4r6nah4qu5ptppnetjvt0lr953sknucv.apps.googleusercontent.com">
+                <Google onSuccess={handleSuccess} onError={handleError} />
+              </GoogleOAuthProvider>
+            </header>
+          </div>
         </form>
       </div>
     </Layout>
@@ -89,3 +120,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
