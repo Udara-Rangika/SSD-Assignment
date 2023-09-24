@@ -61,3 +61,18 @@
 .forgot-btn:hover {
   color: white !important;
 }
+
+/* Password Validation Alert*/
+.valid:before {
+  content: "\2713";
+  color: #4CAF50;
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.invalid:before {
+  content: "\2717"; /* "X" symbol */
+  color: #f44336; /* Red color */
+  font-size: 18px;
+  margin-right: 5px;
+}
